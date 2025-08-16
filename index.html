@@ -3,45 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <title>Mashhad Search</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
-      font-family: sans-serif;
-      background: #f5f5f5;
-      margin: 0;
-      padding: 0;
+      font-family: Tahoma, sans-serif;
       text-align: center;
-      direction: rtl;
-    }
-    header {
-      background: #4a148c;
-      color: #fff;
+      background: #f4f4f9;
       padding: 20px;
+    }
+    h1 {
+      color: #333;
     }
     .box {
-      background: #fff;
-      max-width: 400px;
-      margin: 20px auto;
+      background: white;
       padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      display: inline-block;
+      margin-top: 20px;
     }
     input, button {
       padding: 10px;
-      margin: 8px 0;
-      width: 90%;
-      border-radius: 8px;
+      margin: 10px;
+      border-radius: 5px;
       border: 1px solid #ccc;
-      font-size: 14px;
-    }
-    button {
-      background: #4a148c;
-      color: #fff;
-      border: none;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #6a1b9a;
     }
     ul {
       list-style: none;
@@ -49,66 +33,47 @@
     }
     li {
       background: #eee;
-      margin: 5px 0;
+      margin: 5px;
       padding: 8px;
-      border-radius: 6px;
-    }
-    .desc {
-      font-size: 13px;
-      color: #444;
-      margin: 15px 0;
-      line-height: 1.7;
+      border-radius: 5px;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>🔥 Mashhad Search 🔥</h1>
-  </header>
+  <h1>👋 به Mashhad Search خوش آمدید</h1>
+  <p>توضیحات: اینجا آیدی سوشال مدیاتو وارد کن و کسایی که وارد این سایت شدن رو ببین.  
+  شاید دوستت هم اینجا باشه یا شاید با کسی دوست شدی، یا شاید دنبال کسی هستی اینجا باشه!</p>
 
   <div class="box">
-    <p class="desc">
-      توضيحات : اینجا آیدی سوشال مدیاتو وارد کن و کسایی که وارد این سایت شدن رو ببین.  
-      شاید دوستت هم اینجا باشه، یا شاید دنبال کسی که هستی اینجا پیداش کنی. ✨
-    </p>
-
-    <input id="name" type="text" placeholder="👤 نام شما">
-    <input id="id" type="text" placeholder="🔗 آیدی شما (اینستاگرام/تلگرام...)">
-    <button onclick="join()">ورود به لیست</button>
-
-    <hr>
-    <h3>لیست اعضا:</h3>
-    <ul id="list"></ul>
+    <input type="text" id="nameInput" placeholder="اسم یا آیدی خودتو وارد کن">
+    <button onclick="addUser()">ثبت</button>
   </div>
 
-  <script>
-    const listEl = document.getElementById("list");
-    let users = JSON.parse(localStorage.getItem("users") || "[]");
+  <h2>📋 لیست کاربرانی که وارد شدند:</h2>
+  <ul id="userList"></ul>
 
-    function render() {
-      listEl.innerHTML = "";
+  <script>
+    let users = [];
+
+    function addUser() {
+      let input = document.getElementById('nameInput');
+      let name = input.value.trim();
+      if(name !== "") {
+        users.push(name);
+        input.value = "";
+        renderList();
+      }
+    }
+
+    function renderList() {
+      let list = document.getElementById('userList');
+      list.innerHTML = "";
       users.forEach(u => {
-        const li = document.createElement("li");
-        li.textContent = u.name + " – " + u.id;
-        listEl.appendChild(li);
+        let li = document.createElement('li');
+        li.textContent = u;
+        list.appendChild(li);
       });
     }
-
-    function join() {
-      const name = document.getElementById("name").value.trim();
-      const id = document.getElementById("id").value.trim();
-      if (!name || !id) {
-        alert("لطفاً نام و آیدی را وارد کنید");
-        return;
-      }
-      users.push({ name, id });
-      localStorage.setItem("users", JSON.stringify(users));
-      render();
-      document.getElementById("name").value = "";
-      document.getElementById("id").value = "";
-    }
-
-    render();
   </script>
 </body>
 </html>
